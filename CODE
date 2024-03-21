@@ -1,0 +1,67 @@
+import 'dart:io';
+
+// Interface definition
+abstract class Animal {
+  void makeSound();
+}
+
+// Base class
+class Mammal {
+  void breathe() {
+    print('Inhale... Exhale...');
+  }
+}
+
+// Subclass implementing the Animal interface
+class Dog extends Mammal implements Animal {
+  @override
+  void makeSound() {
+    print('Woof!');
+  }
+
+  // Method overriding the inherited method
+  @override
+  void breathe() {
+    print('Dog is breathing...');
+  }
+}
+
+// Class to represent a Zoo
+class Zoo {
+  List<Animal> animals = [];
+
+  // Method to add an animal to the zoo
+  void addAnimal(Animal animal) {
+    animals.add(animal);
+  }
+
+  // Method demonstrating the use of a loop
+  void makeSoundsInZoo() {
+    for (var animal in animals) {
+      animal.makeSound();
+    }
+  }
+}
+
+void main() {
+  // Initialize Zoo
+  var myZoo = Zoo();
+
+  // Create Dog instance
+  var dog = Dog();
+  myZoo.addAnimal(dog);
+
+  // Reading data from file and initializing animals
+  File('animals.txt').readAsLines().then((List<String> lines) {
+    for (var line in lines) {
+      if (line.toLowerCase() == 'dog') {
+        myZoo.addAnimal(Dog());
+      } // Add other animals as needed
+    }
+
+    // Demonstrate making sounds in the zoo
+    myZoo.makeSoundsInZoo();
+  }).catchError((e) {
+    print('Error reading file: $e');
+  });
+}
